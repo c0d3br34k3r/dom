@@ -3,8 +3,9 @@ package com.catascopic.dominion.basic;
 import com.catascopic.dominion.Identity;
 
 public class Basic {
+	private Basic() {}
 
-	public static final Identity ESTATE = new Province();
+	public static final Identity ESTATE = new Estate();
 
 	public static final Identity DUCHY = new Duchy();
 

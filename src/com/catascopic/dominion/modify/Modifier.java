@@ -1,4 +1,4 @@
-package com.catascopic.dominion.modifier;
+package com.catascopic.dominion.modify;
 
 import java.util.Set;
 

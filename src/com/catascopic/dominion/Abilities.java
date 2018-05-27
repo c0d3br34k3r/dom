@@ -1,6 +1,6 @@
 package com.catascopic.dominion;
 
-public interface Action {
+public interface Abilities {
 
 	void play(Player player, Activation activation);
 

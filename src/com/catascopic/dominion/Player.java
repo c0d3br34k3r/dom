@@ -35,4 +35,17 @@ public class Player {
 		// TODO Auto-generated method stub
 	}
 
+	public void addBuy(Activation activation) {
+		addBuys(1, activation);
+	}
+
+	private void addBuys(int amount, Activation activation) {
+		// TODO Auto-generated method stub
+	}
+
+	public Game game() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

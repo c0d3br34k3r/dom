@@ -3,7 +3,10 @@ package com.catascopic.dominion;
 import java.util.EnumSet;
 import java.util.Set;
 
-public abstract class Identity implements Action, Victory {
+import com.google.common.base.CaseFormat;
+import com.google.common.collect.Sets;
+
+public abstract class Identity implements Abilities {
 
 	private final Name name;
 	private final int cost;
@@ -16,7 +19,8 @@ public abstract class Identity implements Action, Victory {
 	protected Identity(Name name, int cost, Set<Type> types) {
 		this.name = name;
 		this.cost = cost;
-		this.types = types;
+		this.types = Sets.immutableEnumSet(types);
+		checkInvariants();
 	}
 
 	public final Name name() {
@@ -31,7 +35,6 @@ public abstract class Identity implements Action, Victory {
 		return types;
 	}
 
-	@Override
 	public int value(Deck deck) {
 		// warning if this isn't a victory or curse card
 		return 0;
@@ -45,6 +48,22 @@ public abstract class Identity implements Action, Victory {
 	@Override
 	public String toString() {
 		return name.toString();
+	}
+
+	private static Set<Name> instances = EnumSet.noneOf(Name.class);
+
+	private void checkInvariants() {
+		if (!CaseFormat.UPPER_CAMEL
+				.to(CaseFormat.UPPER_UNDERSCORE, getClass().getSimpleName())
+				.equals(name.name())) {
+			throw new IllegalStateException(
+					getClass().getName() + " is named " + name);
+		}
+		synchronized (Identity.class) {
+			if (!instances.add(name)) {
+				throw new IllegalStateException("duplicate of " + name);
+			}
+		}
 	}
 
 }
