@@ -1,8 +1,11 @@
 package com.catascopic.dominion;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 public class Filters {
+
+	public static final Predicate<Card> ANY = Predicates.alwaysTrue();
 
 	public static final Predicate<Card> ACTION = filterType(Type.ACTION);
 	public static final Predicate<Card> TREASURE = filterType(Type.TREASURE);

@@ -6,6 +6,7 @@ import com.catascopic.dominion.modify.AbilitiesValue;
 import com.catascopic.dominion.modify.CostValue;
 import com.catascopic.dominion.modify.NameValue;
 import com.catascopic.dominion.modify.TypesValue;
+import com.catascopic.dominion.zone.Location;
 
 public class Card {
 
@@ -38,6 +39,12 @@ public class Card {
 	}
 
 	private Game game() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Location location() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

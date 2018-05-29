@@ -25,7 +25,7 @@ public class TypesValue extends CardValue<Set<Type>> {
 	}
 
 	public void addTypes(Set<Type> types) {
-		types.addAll(types);
+		this.types.addAll(types);
 	}
 
 	@Override

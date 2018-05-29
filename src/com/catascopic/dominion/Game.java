@@ -2,6 +2,7 @@ package com.catascopic.dominion;
 
 import com.catascopic.dominion.modify.TemporaryContinuousEffect;
 import com.catascopic.dominion.modify.Value;
+import com.catascopic.dominion.zone.Selection;
 
 public class Game {
 

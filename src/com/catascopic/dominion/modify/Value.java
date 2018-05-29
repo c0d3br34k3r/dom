@@ -1,11 +1,9 @@
 package com.catascopic.dominion.modify;
 
-public abstract class Value<E> {
+public interface Value<E> {
 
-	public Value() {}
+	void handle(ValueVisitor visitor);
 
-	public abstract void handle(ValueVisitor visitor);
-
-	public abstract E get();
+	E get();
 
 }
