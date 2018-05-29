@@ -1,19 +1,18 @@
-package com.catascopic.dominion;
+package com.catascopic.dominion.modify;
 
-import com.catascopic.dominion.modify.AbilitiesValue;
-import com.catascopic.dominion.modify.CostValue;
-import com.catascopic.dominion.modify.NameValue;
-import com.catascopic.dominion.modify.TypesValue;
-import com.catascopic.dominion.modify.Value;
-import com.catascopic.dominion.modify.ValueVisitor;
+import com.catascopic.dominion.AutoRemovable;
+import com.catascopic.dominion.Game;
+import com.google.common.collect.ComparisonChain;
 
 public abstract class TemporaryContinuousEffect
 		implements ContinuousEffect, ValueVisitor, AutoRemovable {
 
 	private final int timestamp;
+	private final Layer layer;
 
-	public TemporaryContinuousEffect(Game game) {
-		this.timestamp = game.getTimestamp();
+	public TemporaryContinuousEffect(Game game, Layer layer) {
+		this.timestamp = game.getTime();
+		this.layer = layer;
 	}
 
 	@Override
@@ -23,13 +22,20 @@ public abstract class TemporaryContinuousEffect
 
 	@Override
 	public Layer layer() {
-		// TODO Auto-generated method stub
-		return null;
+		return layer;
 	}
 
 	@Override
-	public void handle(Value<?> value) {
+	public void modify(Value<?> value) {
 		value.handle(this);
+	}
+
+	@Override
+	public int compareTo(ContinuousEffect o) {
+		return ComparisonChain.start()
+				.compare(layer, o.layer())
+				.compare(timestamp, o.timestamp())
+				.result();
 	}
 
 	@Override

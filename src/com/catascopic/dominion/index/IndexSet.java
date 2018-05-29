@@ -19,7 +19,7 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 
 	@Override
 	public Iterator<E> iterator() {
-		return new IndexSetIterator();
+		return this.new IndexSetIterator();
 	}
 
 	private class IndexSetIterator implements Iterator<E> {

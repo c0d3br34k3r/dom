@@ -5,10 +5,11 @@ import com.catascopic.dominion.Game;
 import com.catascopic.dominion.Identity;
 import com.catascopic.dominion.Name;
 import com.catascopic.dominion.Player;
-import com.catascopic.dominion.TemporaryContinuousEffect;
 import com.catascopic.dominion.Turn;
 import com.catascopic.dominion.Type;
 import com.catascopic.dominion.modify.CostValue;
+import com.catascopic.dominion.modify.Layer;
+import com.catascopic.dominion.modify.TemporaryContinuousEffect;
 
 class Bridge extends Identity {
 
@@ -28,7 +29,7 @@ class Bridge extends Identity {
 		private final Turn turn;
 
 		BridgeEffect(Game game) {
-			super(game);
+			super(game, Layer.ATTRIBUTES);
 			this.turn = game.currentTurn();
 		}
 

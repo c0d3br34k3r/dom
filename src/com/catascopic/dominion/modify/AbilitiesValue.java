@@ -1,7 +1,9 @@
 package com.catascopic.dominion.modify;
 
 import com.catascopic.dominion.Abilities;
+import com.catascopic.dominion.Activation;
 import com.catascopic.dominion.Card;
+import com.catascopic.dominion.Player;
 
 public class AbilitiesValue extends CardValue<Abilities> {
 
@@ -19,6 +21,17 @@ public class AbilitiesValue extends CardValue<Abilities> {
 
 	public void replace(Abilities newAbilities) {
 		abilities = newAbilities;
+	}
+
+	public void combine(final Abilities newAbilities) {
+		abilities = new Abilities() {
+
+			@Override
+			public void play(Player player, Activation activation) {
+				abilities.play(player, activation);
+				newAbilities.play(player, activation);
+			}
+		};
 	}
 
 	@Override

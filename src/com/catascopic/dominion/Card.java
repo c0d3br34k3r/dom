@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.catascopic.dominion.modify.AbilitiesValue;
 import com.catascopic.dominion.modify.CostValue;
+import com.catascopic.dominion.modify.NameValue;
 import com.catascopic.dominion.modify.TypesValue;
 
 public class Card {
@@ -13,7 +14,7 @@ public class Card {
 	private Location location;
 
 	public Name name() {
-		return null;
+		return game().calculate(new NameValue(this, identity.name()));
 	}
 
 	public int cost() {

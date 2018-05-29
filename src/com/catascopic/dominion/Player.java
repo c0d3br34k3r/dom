@@ -3,9 +3,9 @@ package com.catascopic.dominion;
 public class Player {
 
 	private final Game game;
-
 	private int actions;
 	private int coins;
+	private int buys;
 
 	public Player(Game game) {
 		this.game = game;
@@ -16,23 +16,23 @@ public class Player {
 	}
 
 	public void addCoins(int amount, Activation activation) {
-		// TODO Auto-generated method stub
+		coins += amount;
 	}
 
 	public void addAction(Activation activation) {
 		addActions(1, activation);
 	}
 
-	public void addActions(int i, Activation activation) {
-		// TODO Auto-generated method stub
+	public void addActions(int amount, Activation activation) {
+		actions += amount;
 	}
 
 	public void draw(Activation activation) {
 		draw(1, activation);
 	}
 
-	public void draw(int i, Activation activation) {
-		// TODO Auto-generated method stub
+	public void draw(int amount, Activation activation) {
+		// TODO
 	}
 
 	public void addBuy(Activation activation) {
@@ -40,12 +40,11 @@ public class Player {
 	}
 
 	private void addBuys(int amount, Activation activation) {
-		// TODO Auto-generated method stub
+		buys += amount;
 	}
 
 	public Game game() {
-		// TODO Auto-generated method stub
-		return null;
+		return game;
 	}
 
 }

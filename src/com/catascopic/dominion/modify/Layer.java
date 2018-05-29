@@ -1,4 +1,4 @@
-package com.catascopic.dominion;
+package com.catascopic.dominion.modify;
 
 public enum Layer {
 
