@@ -9,9 +9,8 @@ public class Location {
 		return moveCount;
 	}
 
-	int move(Zone zone) {
-		this.zone = zone;
-		return ++moveCount;
+	void move() {
+		moveCount++;
 	}
 
 }

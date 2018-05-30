@@ -3,7 +3,9 @@ package com.catascopic.dominion;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.catascopic.dominion.zone.OrderedZone;
 import com.catascopic.dominion.zone.Selection;
+import com.catascopic.dominion.zone.SingleSelection;
 import com.catascopic.dominion.zone.Zone;
 import com.google.common.base.Predicate;
 
@@ -30,37 +32,47 @@ public class Player {
 		return null;
 	}
 
-	// Vanilla bonuses
-
-	public void addCoin(Activation activation) {
-		addCoins(1, activation);
+	public Zone deck() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void addCoins(int amount, Activation activation) {
+	public Zone discardPile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// Vanilla bonuses
+
+	public void addCoin(Source source) {
+		addCoins(1, source);
+	}
+
+	public void addCoins(int amount, Source source) {
 		coins += amount;
 	}
 
-	public void addAction(Activation activation) {
-		addActions(1, activation);
+	public void addAction(Source source) {
+		addActions(1, source);
 	}
 
-	public void addActions(int amount, Activation activation) {
+	public void addActions(int amount, Source source) {
 		actions += amount;
 	}
 
-	public void draw(Activation activation) {
-		draw(1, activation);
+	public void draw(Source source) {
+		draw(1, source);
 	}
 
-	public void draw(int amount, Activation activation) {
+	public void draw(int amount, Source source) {
 		// TODO
 	}
 
-	public void addBuy(Activation activation) {
-		addBuys(1, activation);
+	public void addBuy(Source source) {
+		addBuys(1, source);
 	}
 
-	private void addBuys(int amount, Activation activation) {
+	private void addBuys(int amount, Source source) {
 		buys += amount;
 	}
 
@@ -70,6 +82,12 @@ public class Player {
 			Predicate<Card> filter,
 			Prompt prompt) {
 		return select(zone, 1, 1, filter, prompt);
+	}
+
+	public Selection maySelectOne(Zone zone,
+			Predicate<Card> filter,
+			Prompt prompt) {
+		return selectUpTo(zone, 1, filter, prompt);
 	}
 
 	public Selection selectAnyNumber(Zone zone,
@@ -104,6 +122,19 @@ public class Player {
 	}
 
 	public void trash(Selection selection) {
+		// TODO Auto-generated method stub
+	}
+
+	public void discard(Selection selection) {
+		// TODO Auto-generated method stub
+	}
+
+	public void moveToDeckTop(Selection selection) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void play(SingleSelection selection) {
 		// TODO Auto-generated method stub
 
 	}

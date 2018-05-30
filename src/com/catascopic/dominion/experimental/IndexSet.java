@@ -1,4 +1,4 @@
-package com.catascopic.dominion.index;
+package com.catascopic.dominion.experimental;
 
 import java.util.AbstractSet;
 import java.util.BitSet;
@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 
-	private BitSet elements = new BitSet();
+	private BitSet bits = new BitSet();
 	private int size = 0;
 	private List<E> universe;
 
@@ -25,7 +25,7 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 	private class IndexSetIterator implements Iterator<E> {
 
 		int prev = -1;
-		int next = elements.nextSetBit(0);
+		int next = bits.nextSetBit(0);
 
 		@Override
 		public boolean hasNext() {
@@ -38,7 +38,7 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 				throw new NoSuchElementException();
 			}
 			prev = next;
-			next = elements.nextSetBit(next + 1);
+			next = bits.nextSetBit(next + 1);
 			return universe.get(next);
 		}
 
@@ -47,7 +47,7 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 			if (prev == -1) {
 				throw new IllegalStateException();
 			}
-			elements.clear(prev);
+			bits.clear(prev);
 		}
 	}
 
@@ -64,8 +64,8 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 	@Override
 	public boolean contains(Object o) {
 		int ordinal = ((Indexed) o).ordinal();
-		if (!elements.get(ordinal)) {
-			elements.set(ordinal);
+		if (!bits.get(ordinal)) {
+			bits.set(ordinal);
 			size++;
 			return true;
 		}
@@ -75,8 +75,8 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 	@Override
 	public boolean add(E o) {
 		int ordinal = o.ordinal();
-		if (!elements.get(ordinal)) {
-			elements.set(ordinal);
+		if (!bits.get(ordinal)) {
+			bits.set(ordinal);
 			size++;
 			return true;
 		}
@@ -86,8 +86,8 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 	@Override
 	public boolean remove(Object e) {
 		int ordinal = ((Indexed) e).ordinal();
-		boolean result = elements.get(ordinal);
-		elements.clear(ordinal);
+		boolean result = bits.get(ordinal);
+		bits.clear(ordinal);
 		return result;
 	}
 
@@ -100,9 +100,9 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 		}
 		IndexSet<?> other = (IndexSet<?>) c;
 		BitSet copy = new BitSet();
-		copy.or(other.elements);
-		copy.and(elements);
-		return copy.equals(other.elements);
+		copy.or(other.bits);
+		copy.and(bits);
+		return copy.equals(other.bits);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 			return super.addAll(collection);
 		}
 		IndexSet<?> other = (IndexSet<?>) collection;
-		elements.or(other.elements);
+		bits.or(other.bits);
 		return recalculateSize();
 	}
 
@@ -121,7 +121,7 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 			return super.removeAll(c);
 		}
 		IndexSet<?> other = (IndexSet<?>) c;
-		elements.andNot(other.elements);
+		bits.andNot(other.bits);
 		return recalculateSize();
 	}
 
@@ -131,19 +131,19 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 			return super.removeAll(c);
 		}
 		IndexSet<?> other = (IndexSet<?>) c;
-		elements.and(other.elements);
+		bits.and(other.bits);
 		return recalculateSize();
 	}
 
 	private boolean recalculateSize() {
 		int oldSize = size;
-		size = elements.cardinality();
+		size = bits.cardinality();
 		return size != oldSize;
 	}
 
 	@Override
 	public void clear() {
-		elements.clear();
+		bits.clear();
 		size = 0;
 	}
 
@@ -152,7 +152,7 @@ public class IndexSet<E extends Indexed> extends AbstractSet<E> {
 		if (!(o instanceof IndexSet)) {
 			return super.equals(o);
 		}
-		return elements.equals(((IndexSet<?>) o).elements);
+		return bits.equals(((IndexSet<?>) o).bits);
 	}
 
 }

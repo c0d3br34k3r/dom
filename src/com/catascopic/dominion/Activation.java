@@ -1,5 +1,5 @@
 package com.catascopic.dominion;
 
-public class Activation {
+public class Activation implements Source {
 
 }

@@ -1,8 +1,8 @@
 package com.catascopic.dominion;
 
+import com.catascopic.dominion.event.DelayedTrigger;
 import com.catascopic.dominion.modify.TemporaryContinuousEffect;
 import com.catascopic.dominion.modify.Value;
-import com.catascopic.dominion.zone.Selection;
 
 public class Game {
 
@@ -26,6 +26,11 @@ public class Game {
 	public Turn currentTurn() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void addDelayedTrigger(DelayedTrigger trigger) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

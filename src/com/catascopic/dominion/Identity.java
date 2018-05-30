@@ -3,6 +3,10 @@ package com.catascopic.dominion;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.catascopic.dominion.event.Context;
+import com.catascopic.dominion.event.Event;
+import com.catascopic.dominion.event.Triggers;
+import com.catascopic.dominion.modify.ContinuousEffects;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 
@@ -43,6 +47,16 @@ public abstract class Identity implements Abilities {
 	@Override
 	public void play(Player player, Activation activation) {
 		// warning if this isn't an action or treasure card
+	}
+
+	@Override
+	public void trigger(Context context, Event event, Triggers triggers) {
+		// do nothing by default
+	}
+
+	@Override
+	public void continuousEffect(Context context, ContinuousEffects effects) {
+		// do nothing by default
 	}
 
 	@Override

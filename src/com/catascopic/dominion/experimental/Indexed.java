@@ -1,4 +1,4 @@
-package com.catascopic.dominion.index;
+package com.catascopic.dominion.experimental;
 
 public interface Indexed {
 

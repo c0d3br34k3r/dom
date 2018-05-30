@@ -9,6 +9,7 @@ import com.catascopic.dominion.Card;
 public class OrderedZone extends Zone {
 
 	private List<Card> cards;
+	private int topCount;
 
 	@Override
 	public List<Card> cards() {
@@ -21,6 +22,11 @@ public class OrderedZone extends Zone {
 		for (Card card : cards) {
 			card.location().move(this);
 		}
+	}
+
+	public void shuffle() {
+		Collections.shuffle(cards);
+		topCount++;
 	}
 
 }
