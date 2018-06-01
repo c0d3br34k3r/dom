@@ -26,7 +26,7 @@ public class Card {
 		return game().calculate(new TypesValue(this, identity.types()));
 	}
 
-	public int value(Deck deck) {
+	public int value(CombinedDeck deck) {
 		return identity.value(deck);
 	}
 

@@ -3,7 +3,7 @@ package com.catascopic.dominion;
 import java.util.EnumSet;
 import java.util.Set;
 
-import com.catascopic.dominion.zone.OrderedZone;
+import com.catascopic.dominion.zone.Deck;
 import com.catascopic.dominion.zone.Selection;
 import com.catascopic.dominion.zone.SingleSelection;
 import com.catascopic.dominion.zone.Zone;
@@ -32,7 +32,7 @@ public class Player {
 		return null;
 	}
 
-	public Zone deck() {
+	public Deck deck() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -129,14 +129,12 @@ public class Player {
 		// TODO Auto-generated method stub
 	}
 
-	public void moveToDeckTop(Selection selection) {
+	public void moveOntoDeck(Selection selection) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void play(SingleSelection selection) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

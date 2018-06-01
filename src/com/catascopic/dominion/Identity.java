@@ -39,7 +39,7 @@ public abstract class Identity implements Abilities {
 		return types;
 	}
 
-	public int value(Deck deck) {
+	public int value(CombinedDeck deck) {
 		// warning if this isn't a victory or curse card
 		return 0;
 	}

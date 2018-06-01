@@ -8,9 +8,6 @@ public abstract class Zone {
 
 	abstract Collection<Card> removeAll();
 
-	public SingleSelection selectTopCard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	abstract void dump(Zone zone);
 
 }

@@ -1,7 +1,7 @@
 package com.catascopic.dominion.basic;
 
 import com.catascopic.dominion.Identity;
-import com.catascopic.dominion.Deck;
+import com.catascopic.dominion.CombinedDeck;
 import com.catascopic.dominion.Name;
 import com.catascopic.dominion.Type;
 
@@ -12,7 +12,7 @@ class Duchy extends Identity {
 	}
 
 	@Override
-	public int value(Deck deck) {
+	public int value(CombinedDeck deck) {
 		return 3;
 	}
 

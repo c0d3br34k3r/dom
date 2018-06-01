@@ -4,6 +4,9 @@ import com.catascopic.dominion.Abilities;
 import com.catascopic.dominion.Activation;
 import com.catascopic.dominion.Card;
 import com.catascopic.dominion.Player;
+import com.catascopic.dominion.event.Context;
+import com.catascopic.dominion.event.Event;
+import com.catascopic.dominion.event.Triggers;
 
 public class AbilitiesValue extends CardValue<Abilities> {
 
@@ -30,6 +33,20 @@ public class AbilitiesValue extends CardValue<Abilities> {
 			public void play(Player player, Activation activation) {
 				abilities.play(player, activation);
 				newAbilities.play(player, activation);
+			}
+
+			@Override
+			public void trigger(Context context, Event event,
+					Triggers triggers) {
+				abilities.trigger(context, event, triggers);
+				newAbilities.trigger(context, event, triggers);
+			}
+
+			@Override
+			public void continuousEffect(Context context,
+					ContinuousEffects effects) {
+				abilities.continuousEffect(context, effects);
+				newAbilities.continuousEffect(context, effects);
 			}
 		};
 	}

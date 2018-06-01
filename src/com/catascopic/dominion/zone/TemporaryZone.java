@@ -4,7 +4,10 @@ public class TemporaryZone extends UnorderedZone implements AutoCloseable {
 
 	@Override
 	public void close() {
-
+		if (!cards.isEmpty()) {
+			throw new IllegalStateException(
+					this + " contains " + cards.toString());
+		}
 	}
 
 }

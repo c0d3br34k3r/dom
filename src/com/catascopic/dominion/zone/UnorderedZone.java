@@ -10,7 +10,7 @@ import com.catascopic.dominion.Card;
 
 public class UnorderedZone extends Zone {
 
-	private Set<Card> cards;
+	protected Set<Card> cards;
 
 	public Set<Card> cards() {
 		return Collections.unmodifiableSet(cards);
