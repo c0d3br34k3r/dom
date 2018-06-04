@@ -11,7 +11,6 @@ import com.catascopic.dominion.zone.Location;
 public class Card {
 
 	private Identity identity;
-	private int timestamp;
 	private Location location;
 
 	public Name name() {

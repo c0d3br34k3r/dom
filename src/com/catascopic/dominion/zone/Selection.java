@@ -1,32 +1,18 @@
 package com.catascopic.dominion.zone;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import com.catascopic.dominion.Card;
-import com.catascopic.dominion.experimental.OptionalSet;
 
 public abstract class Selection {
 
-	private List<Locator>
-	
-	abstract Collection<Card> remove();
+	abstract List<Card> remove();
 
-	public Collection<Card> cards() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	static final SingleSelection EMPTY = new SingleSelection() {
+	static final Locator LOST_TRACK = new Locator() {
 
 		@Override
-		Collection<Card> remove() {
-			return Collections.emptySet();
-		}
-
-		@Override
-		public OptionalSet<Card> cards() {
-			return OptionalSet.empty();
+		public boolean remove() {
+			return false;
 		}
 	};
 

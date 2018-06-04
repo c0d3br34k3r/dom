@@ -14,8 +14,9 @@ public class Deck extends Zone {
 	private Player player;
 	private int topCount;
 
-	public void moveToTop(Selection selection) {
-		if (cards.addAll(selection.remove())) {
+	public void moveToTop(SingleSelection selection) {
+		if (selection.remove()) {
+			cards.add(selection.get());
 			topCount++;
 		}
 	}
@@ -27,9 +28,23 @@ public class Deck extends Zone {
 
 	public SingleSelection selectTop() {
 		if (ensureSize(1)) {
+			final Card top = cards.get(cards.size() - 1);
+			final int currentMoveCount = top.location().moveCount();
+			final int currentTopCount = topCount;
+			return SingleSelection.of(top, new Locator() {
 
+				@Override
+				public boolean remove() {
+					if (currentMoveCount == top.location().moveCount()
+							&& currentTopCount == topCount) {
+						cards.remove(cards.size() - 1);
+						return true;
+					}
+					return false;
+				}
+			});
 		}
-		return Selection.EMPTY;
+		return SingleSelection.EMPTY;
 	}
 
 	private boolean ensureSize(int amount) {

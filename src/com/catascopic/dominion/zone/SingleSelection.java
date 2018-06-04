@@ -1,29 +1,30 @@
 package com.catascopic.dominion.zone;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import com.catascopic.dominion.Card;
-import com.catascopic.dominion.experimental.OptionalSet;
-import com.google.common.collect.Iterables;
 
-public class SingleSelection extends Selection {
+public abstract class SingleSelection extends Selection {
 
-	private OptionalSet<Locator> locator;
+	static final SingleSelection EMPTY = new SingleSelection() {
 
-	public boolean isEmpty() {
-		return locator.isEmpty();
-	}
-
-	public Card get() {
-		return locator.getOnly().card();
-	}
-
-	@Override
-	OptionalSet<Card> remove() {
-		if (!locator.isEmpty()) {
-			return locator.getOnly().remove();
+		@Override
+		List<Card> remove() {
+			return Collections.emptyList();
 		}
-		return false;
+	};
+
+	static SingleSelection of(final Card card, final Locator locator) {
+		return new SingleSelection() {
+
+			@Override
+			List<Card> remove() {
+				return locator.remove()
+						? Collections.singletonList(card)
+						: Collections.<Card>emptyList();
+			}
+		};
 	}
 
 }

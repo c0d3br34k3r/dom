@@ -21,7 +21,7 @@ class Harbinger extends Identity {
 		player.moveOntoDeck(player.maySelectOne(
 				player.discardPile(),
 				Filters.ANY,
-				Prompt.get(Name.HARBINGER)));
+				Prompt.get(name())));
 	}
 
 }
