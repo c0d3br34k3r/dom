@@ -21,4 +21,24 @@ public class Filters {
 		};
 	}
 
+	public static Predicate<Card> costingUpTo(final int cost) {
+		return new Predicate<Card>() {
+
+			@Override
+			public boolean apply(Card card) {
+				return card.cost() <= cost;
+			}
+		};
+	}
+
+	public static Predicate<Card> named(final Name name) {
+		return new Predicate<Card>() {
+
+			@Override
+			public boolean apply(Card card) {
+				return card.name() == name;
+			}
+		};
+	}
+
 }

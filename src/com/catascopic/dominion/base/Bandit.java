@@ -1,25 +1,24 @@
 package com.catascopic.dominion.base;
 
 import com.catascopic.dominion.Activation;
-import com.catascopic.dominion.Filters;
 import com.catascopic.dominion.Identity;
 import com.catascopic.dominion.Name;
+import com.catascopic.dominion.PileName;
 import com.catascopic.dominion.Player;
-import com.catascopic.dominion.Prompt;
 import com.catascopic.dominion.Type;
 
-class Chapel extends Identity {
+class Bandit extends Identity {
 
-	Chapel() {
-		super(Name.CHAPEL, 2, Type.ACTION);
+	Bandit() {
+		super(Name.BANDIT, 5, Type.ACTION, Type.ATTACK);
 	}
 
 	@Override
 	public void play(Player player, Activation activation) {
-		player.trash(activation, player.selectAnyNumber(
-				player.hand(),
-				Filters.ANY,
-				Prompt.get(this)));
+		player.gain(activation, PileName.GOLD);
+		for (Player opponent : player.getAttacks(activation)) {
+			// TODO: reveal
+		}
 	}
 
 }

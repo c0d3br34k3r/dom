@@ -8,17 +8,17 @@ import com.catascopic.dominion.Player;
 import com.catascopic.dominion.Prompt;
 import com.catascopic.dominion.Type;
 
-class Chapel extends Identity {
+class Workshop extends Identity {
 
-	Chapel() {
-		super(Name.CHAPEL, 2, Type.ACTION);
+	Workshop() {
+		super(Name.WORKSHOP, 3, Type.ACTION);
 	}
 
 	@Override
 	public void play(Player player, Activation activation) {
-		player.trash(activation, player.selectAnyNumber(
-				player.hand(),
-				Filters.ANY,
+		player.gain(activation, player.selectOne(
+				player.game().supply(),
+				Filters.costingUpTo(4),
 				Prompt.get(this)));
 	}
 

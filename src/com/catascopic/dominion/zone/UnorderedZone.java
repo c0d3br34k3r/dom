@@ -7,57 +7,91 @@ import java.util.List;
 import java.util.Set;
 
 import com.catascopic.dominion.Card;
+import com.google.common.collect.Iterables;
 
-public class UnorderedZone extends Zone {
+public class UnorderedZone extends Zone implements Selectable {
 
-	protected Set<Card> cards;
+	protected Set<Card> contents;
 
+	@Override
 	public Set<Card> cards() {
-		return Collections.unmodifiableSet(cards);
+		return Collections.unmodifiableSet(contents);
 	}
 
 	@Override
 	Collection<Card> removeAll() {
-		List<Card> contents = new ArrayList<>(cards);
-		for (Card card : cards) {
+		for (Card card : contents) {
 			card.location().move();
 		}
-		cards.clear();
-		return contents;
+		contents.clear();
+		List<Card> result = new ArrayList<>(contents);
+		return result;
 	}
 
+	@Override
 	public void dump(Zone zone) {
-		cards.addAll(zone.removeAll());
+		contents.addAll(zone.removeAll());
 	}
 
-	public Selection accept(Selection selection) {
-		Collection<Card> removed = selection.remove();
-		cards.addAll(removed);
-		Collection<Locator> locators = getLocators(removed);
-		return new Selection() {
+	public void accept(Selection selection) {
+		selection.move(new Selection.Acceptor() {
 
 			@Override
-			Collection<Card> remove() {
+			public Locator accept(Collection<Card> removed) {
+				contents.addAll(removed);
+				return locate(removed);
+			}
+		});
+	}
+
+	@Override
+	public SingleSelection select(Card card) {
+		return new SingleSelection(locate(card));
+	}
+
+	@Override
+	public Selection select(Collection<Card> cards) {
+		return new Selection(locate(cards));
+	}
+
+	@Override
+	public Selection selectAll() {
+		return select(cards());
+	}
+
+	Locator locate(Collection<Card> cards) {
+		switch (cards.size()) {
+		case 0:
+			return Selection.EMPTY_LOCATOR;
+		case 1:
+			return locate(Iterables.getOnlyElement(cards));
+		default:
+		}
+		final List<Locator> locators = new ArrayList<>();
+		for (Card card : cards) {
+			locators.add(locate(card));
+		}
+		return new Locator() {
+
+			@Override
+			public void remove(Collection<Card> cards) {
 				for (Locator locator : locators) {
-					locator.remove(dest)
+					locator.remove(cards);
 				}
 			}
 		};
 	}
 
-	private Collection<Locator> getLocators(Collection<Card> removed) {
-		return null;
-	}
-
-	Locator getLocator(final Card card) {
-		final int moveCount = card.location().moveCount();
-		new Locator() {
+	Locator locate(final Card card) {
+		final int currentMoveCount = card.location().moveCount();
+		return new Locator() {
 
 			@Override
-			public boolean remove() {
-				if (moveCount == card.location().moveCount()) {
-					cards.remove(card);
-					dest.add(card);
+			public void remove(Collection<Card> removed) {
+				if (card.location().moveCount() == currentMoveCount) {
+					card.location().move();
+					contents.remove(card);
+					removed.add(card);
 				}
 			}
 		};

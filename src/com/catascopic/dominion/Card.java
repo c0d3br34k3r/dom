@@ -43,6 +43,10 @@ public class Card {
 	}
 
 	public Location location() {
+		return location;
+	}
+
+	public PileName pile() {
 		// TODO Auto-generated method stub
 		return null;
 	}

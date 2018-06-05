@@ -7,19 +7,22 @@ import com.catascopic.dominion.Name;
 import com.catascopic.dominion.Player;
 import com.catascopic.dominion.Prompt;
 import com.catascopic.dominion.Type;
+import com.catascopic.dominion.zone.TemporaryZone;
 
-class Chapel extends Identity {
+class Sentry extends Identity {
 
-	Chapel() {
-		super(Name.CHAPEL, 2, Type.ACTION);
+	Sentry() {
+		super(Name.SENTRY, 5, Type.ACTION);
 	}
 
 	@Override
 	public void play(Player player, Activation activation) {
-		player.trash(activation, player.selectAnyNumber(
-				player.hand(),
-				Filters.ANY,
-				Prompt.get(this)));
+		player.draw(activation);
+		player.addAction(activation);
+		// TODO:
+		try (TemporaryZone lookingAt = player.deck().lookAtTop(2)) {
+			player.selectAnyNumber(lookingAt, Filters.ANY, Prompt.get(1, this));
+		}
 	}
 
 }

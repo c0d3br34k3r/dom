@@ -17,8 +17,7 @@ class Vassal extends Identity {
 	public void play(final Player player, Activation activation) {
 		player.addCoins(2, activation);
 		SingleSelection selection = player.deck().selectTop();
-		player.discard(selection);
-		if (!selection.isEmpty()
+		if (player.discard(activation, selection)
 				&& selection.get().types().contains(Type.ACTION)) {
 			player.play(selection);
 		}

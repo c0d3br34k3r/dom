@@ -7,67 +7,110 @@ import java.util.List;
 
 import com.catascopic.dominion.Card;
 import com.catascopic.dominion.Player;
+import com.catascopic.dominion.base.TemporaryZone;
+import com.catascopic.dominion.zone.Selection.Acceptor;
 
 public class Deck extends Zone {
 
-	private List<Card> cards = new ArrayList<>();
+	private List<Card> contents = new ArrayList<>();
 	private Player player;
 	private int topCount;
 
-	public void moveToTop(SingleSelection selection) {
-		if (selection.remove()) {
-			cards.add(selection.get());
-			topCount++;
-		}
+	public void moveToTop(Selection selection) {
+		selection.move(new Acceptor() {
+
+			@Override
+			public Locator accept(Collection<Card> removed) {
+				if (contents.addAll(removed)) {
+					topCount++;
+				}
+				return lockTop(removed.size());
+			}
+		});
 	}
 
 	public void shuffle() {
-		Collections.shuffle(cards);
+		Collections.shuffle(contents);
 		topCount++;
 	}
 
 	public SingleSelection selectTop() {
-		if (ensureSize(1)) {
-			final Card top = cards.get(cards.size() - 1);
-			final int currentMoveCount = top.location().moveCount();
-			final int currentTopCount = topCount;
-			return SingleSelection.of(top, new Locator() {
-
-				@Override
-				public boolean remove() {
-					if (currentMoveCount == top.location().moveCount()
-							&& currentTopCount == topCount) {
-						cards.remove(cards.size() - 1);
-						return true;
-					}
-					return false;
-				}
-			});
-		}
-		return SingleSelection.EMPTY;
+		return ensureSize(1) == 1
+				? new SingleSelection(locateTop())
+				: Selection.empty();
 	}
 
-	private boolean ensureSize(int amount) {
-		if (cards.size() < amount) {
+	public Selection selectTop(int amount) {
+		return new Selection(lockTop(ensureSize(amount)));
+	}
+
+	Locator lockTop(final int amount) {
+		final int currentTopCount = topCount;
+		return new Locator() {
+
+			@Override
+			public void remove(Collection<Card> removed) {
+				if (topCount == currentTopCount) {
+					List<Card> cards = contents.subList(
+							contents.size() - amount,
+							contents.size());
+					for (Card card : cards) {
+						card.location().move();
+					}
+					topCount++;
+					removed.addAll(cards);
+					cards.clear();
+				}
+			}
+		};
+	}
+
+	Locator locateTop() {
+		final int currentTopCount = topCount;
+		return new Locator() {
+
+			@Override
+			public void remove(Collection<Card> removed) {
+				if (topCount == currentTopCount) {
+					Card card = contents.remove(contents.size() - 1);
+					card.location().move();
+					topCount++;
+					removed.add(card);
+				}
+			}
+		};
+	}
+
+	private int ensureSize(int amount) {
+		if (contents.size() < amount) {
 			dump(player.discardPile());
 		}
 		shuffle();
-		return cards.size() >= amount;
+		return contents.size();
 	}
 
 	@Override
 	void dump(Zone zone) {
-		cards.addAll(zone.removeAll());
+		contents.addAll(zone.removeAll());
 	}
 
 	@Override
 	Collection<Card> removeAll() {
-		for (Card card : cards) {
+		if (contents.isEmpty()) {
+			return Collections.emptySet();
+		}
+		for (Card card : contents) {
 			card.location().move();
 		}
-		Collection<Card> result = new ArrayList<>(cards);
-		cards.clear();
+		Collection<Card> result = new ArrayList<>(contents);
+		contents.clear();
+		topCount++;
 		return result;
+	}
+
+	public TemporaryZone lookAtTop(int amount) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

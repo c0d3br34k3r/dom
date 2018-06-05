@@ -1,5 +1,7 @@
 package com.catascopic.dominion;
 
-public class CombinedDeck {
+import com.google.common.collect.Multiset;
+
+public abstract class CombinedDeck implements Multiset<Name> {
 
 }

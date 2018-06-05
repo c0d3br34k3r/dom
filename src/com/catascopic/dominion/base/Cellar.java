@@ -21,8 +21,8 @@ class Cellar extends Identity {
 		Selection selection = player.selectAnyNumber(
 				player.hand(),
 				Filters.ANY,
-				Prompt.get(Name.CELLAR));
-		player.discard(selection);
+				Prompt.get(this));
+		player.discard(activation, selection);
 		player.draw(selection.cards().size(), activation);
 	}
 

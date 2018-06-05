@@ -18,10 +18,10 @@ class Harbinger extends Identity {
 	public void play(Player player, Activation activation) {
 		player.draw(activation);
 		player.addAction(activation);
-		player.moveOntoDeck(player.maySelectOne(
+		player.moveOntoDeck(activation, player.maySelectOne(
 				player.discardPile(),
 				Filters.ANY,
-				Prompt.get(name())));
+				Prompt.get(this)));
 	}
 
 }

@@ -8,18 +8,18 @@ import com.catascopic.dominion.Player;
 import com.catascopic.dominion.Prompt;
 import com.catascopic.dominion.Type;
 
-class Chapel extends Identity {
+class ThroneRoom extends Identity {
 
-	Chapel() {
-		super(Name.CHAPEL, 2, Type.ACTION);
+	ThroneRoom() {
+		super(Name.THRONE_ROOM, 4, Type.ACTION);
 	}
 
 	@Override
 	public void play(Player player, Activation activation) {
-		player.trash(activation, player.selectAnyNumber(
+		activation.play(player.maySelectOne(
 				player.hand(),
-				Filters.ANY,
-				Prompt.get(this)));
+				Filters.ACTION,
+				Prompt.get(this)), 2);
 	}
 
 }

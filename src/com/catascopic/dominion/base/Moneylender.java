@@ -8,18 +8,20 @@ import com.catascopic.dominion.Player;
 import com.catascopic.dominion.Prompt;
 import com.catascopic.dominion.Type;
 
-class Chapel extends Identity {
+class Moneylender extends Identity {
 
-	Chapel() {
-		super(Name.CHAPEL, 2, Type.ACTION);
+	Moneylender() {
+		super(Name.MONEYLENDER, 4, Type.ACTION);
 	}
 
 	@Override
 	public void play(Player player, Activation activation) {
-		player.trash(activation, player.selectAnyNumber(
+		if (player.trash(activation, player.maySelectOne(
 				player.hand(),
-				Filters.ANY,
-				Prompt.get(this)));
+				Filters.named(Name.COPPER),
+				Prompt.get(this)))) {
+			player.addCoins(3, activation);
+		}
 	}
 
 }
