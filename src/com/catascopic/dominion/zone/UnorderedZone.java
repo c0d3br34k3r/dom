@@ -3,6 +3,7 @@ package com.catascopic.dominion.zone;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,10 @@ import com.google.common.collect.Iterables;
 public class UnorderedZone extends Zone implements Selectable {
 
 	protected Set<Card> contents;
+
+	public UnorderedZone(List<Card> cards) {
+		contents = new HashSet<>(cards);
+	}
 
 	@Override
 	public Set<Card> cards() {

@@ -1,5 +1,6 @@
 package com.catascopic.dominion;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
@@ -27,6 +28,11 @@ public class Player {
 	private DiscardPile discardPile;
 	private UnorderedZone inPlay;
 	private UnorderedZone hand;
+
+	Player(Game game, Card... inPlay) {
+		this.game = game;
+		this.inPlay = new UnorderedZone(Arrays.asList(inPlay));
+	}
 
 	public Player(Game game) {
 		this.game = game;

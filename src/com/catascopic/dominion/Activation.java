@@ -29,4 +29,9 @@ public class Activation implements Source {
 
 	}
 
+	public Card card() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

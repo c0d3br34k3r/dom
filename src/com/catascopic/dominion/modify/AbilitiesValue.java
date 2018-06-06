@@ -43,9 +43,15 @@ public class AbilitiesValue extends CardValue<Abilities> {
 			}
 
 			@Override
-			public void modify(Value<?> value) {
-				abilities.modify(value);
-				newAbilities.modify(value);
+			public void getContinuousEffectsLayer1(ContinuousEffects effects) {
+				abilities.getContinuousEffectsLayer1(effects);
+				newAbilities.getContinuousEffectsLayer1(effects);
+			}
+			
+			@Override
+			public void getContinuousEffectsLayer2(ContinuousEffects effects) {
+				abilities.getContinuousEffectsLayer2(effects);
+				newAbilities.getContinuousEffectsLayer2(effects);
 			}
 		};
 	}

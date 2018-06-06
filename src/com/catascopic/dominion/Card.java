@@ -3,17 +3,23 @@ package com.catascopic.dominion;
 import java.util.Set;
 
 import com.catascopic.dominion.modify.AbilitiesValue;
-import com.catascopic.dominion.modify.ContinuousEffect;
+import com.catascopic.dominion.modify.ContinuousEffectSource;
+import com.catascopic.dominion.modify.ContinuousEffects;
 import com.catascopic.dominion.modify.CostValue;
 import com.catascopic.dominion.modify.NameValue;
 import com.catascopic.dominion.modify.TypesValue;
-import com.catascopic.dominion.modify.Value;
 import com.catascopic.dominion.zone.Location;
 
-public class Card implements ContinuousEffect {
+public class Card implements ContinuousEffectSource {
 
 	private Identity identity;
 	private Location location;
+	private Game game;
+
+	public Card(Game game, Identity identity) {
+		this.game = game;
+		this.identity = identity;
+	}
 
 	public Name name() {
 		return game().calculate(new NameValue(this, identity.name()));
@@ -35,18 +41,12 @@ public class Card implements ContinuousEffect {
 		calculateAbilities().play(player, activation);
 	}
 
-	@Override
-	public void modify(Value<?> value) {
-		calculateAbilities().modify(value);
-	}
-
 	private Abilities calculateAbilities() {
 		return game().calculate(new AbilitiesValue(this, identity));
 	}
 
 	private Game game() {
-		// TODO Auto-generated method stub
-		return null;
+		return game;
 	}
 
 	public Location location() {
@@ -59,6 +59,16 @@ public class Card implements ContinuousEffect {
 	}
 
 	@Override
+	public void getContinuousEffectsLayer1(ContinuousEffects effects) {
+		calculateAbilities().getContinuousEffectsLayer1(effects);
+	}
+	
+	@Override
+	public void getContinuousEffectsLayer2(ContinuousEffects effects) {
+		calculateAbilities().getContinuousEffectsLayer2(effects);
+	}
+
+	@Override
 	public int timestamp() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -67,6 +77,11 @@ public class Card implements ContinuousEffect {
 	public Identity identity() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return identity.toString();
 	}
 
 }

@@ -2,7 +2,7 @@ package com.catascopic.dominion.modify;
 
 public interface ContinuousEffect {
 
-	 int timestamp();
+	// int timestamp();
 
 	// Layer layer();
 

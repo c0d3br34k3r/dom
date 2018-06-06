@@ -1,5 +1,7 @@
 package com.catascopic.dominion.modify;
 
-public class ContinuousEffects {
+public interface ContinuousEffects {
+
+	void add(ContinuousEffect effect);
 
 }

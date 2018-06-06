@@ -64,6 +64,10 @@ public enum Name {
 	UPGRADE,
 	HAREM,
 	NOBLES,
+	
+	HIGHWAY,
+	BAND_OF_MISFITS,
+	
 	;
 
 }

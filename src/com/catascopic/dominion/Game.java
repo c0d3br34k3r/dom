@@ -7,6 +7,9 @@ import java.util.List;
 
 import com.catascopic.dominion.event.DelayedTrigger;
 import com.catascopic.dominion.modify.ContinuousEffect;
+import com.catascopic.dominion.modify.ContinuousEffectSource;
+import com.catascopic.dominion.modify.ContinuousEffects;
+import com.catascopic.dominion.modify.Layer;
 import com.catascopic.dominion.modify.TemporaryContinuousEffect;
 import com.catascopic.dominion.modify.Value;
 import com.catascopic.dominion.zone.Supply;
@@ -19,10 +22,14 @@ public class Game {
 	private int lastCalculationTime; // = 0
 	private List<ContinuousEffect> calculatedEffects = new ArrayList<>();
 
-	private AutoRemovingGroup<TemporaryContinuousEffect> continuousEffects =
+	private AutoRemovingGroup<TemporaryContinuousEffect> temporaryEffects =
 			new AutoRemovingGroup<>();
 
-	private List<Player> players;
+	private List<Player> players = new ArrayList<>();
+
+	void addPlayer(Player player) {
+		players.add(player);
+	}
 
 	public int getTime() {
 		return time;
@@ -41,16 +48,30 @@ public class Game {
 	private void calculateEffects() {
 		calculatedEffects.clear();
 		lastCalculationTime = time;
-		Iterables.addAll(calculatedEffects, continuousEffects);
+		List<ContinuousEffectSource> sources = new ArrayList<>();
+		Iterables.addAll(sources, temporaryEffects);
 		for (Player player : players) {
-			calculatedEffects.addAll(player.inPlay().cards());
+			sources.addAll(player.inPlay().cards());
 		}
-		Collections.sort(calculatedEffects, TIMESTAMP_ORDER);
+		Collections.sort(sources, TIMESTAMP_ORDER);
+		ContinuousEffects continuousEffects = new ContinuousEffects() {
+
+			@Override
+			public void add(ContinuousEffect effect) {
+				calculatedEffects.add(effect);
+			}
+		};
+		for (ContinuousEffectSource source : sources) {
+			source.getContinuousEffectsLayer1(continuousEffects);
+		}
+		for (ContinuousEffectSource source : sources) {
+			source.getContinuousEffectsLayer2(continuousEffects);
+		}
 	}
 
 	public void addContinuousEffect(
 			TemporaryContinuousEffect continuousEffect) {
-		continuousEffects.add(continuousEffect);
+		temporaryEffects.add(continuousEffect);
 	}
 
 	public Turn currentTurn() {
@@ -73,16 +94,20 @@ public class Game {
 		return null;
 	}
 
-	private static final Comparator<? super ContinuousEffect> TIMESTAMP_ORDER =
-			new Comparator<ContinuousEffect>() {
+	private static final Comparator<? super ContinuousEffectSource> TIMESTAMP_ORDER =
+			new Comparator<ContinuousEffectSource>() {
 
 				@Override
-				public int compare(ContinuousEffect left,
-						ContinuousEffect right) {
-					return -Integer.compare(
+				public int compare(ContinuousEffectSource left,
+						ContinuousEffectSource right) {
+					return Integer.compare(
 							left.timestamp(),
 							right.timestamp());
 				}
 			};
+
+	void tick() {
+		time++;
+	}
 
 }

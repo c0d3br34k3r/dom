@@ -18,14 +18,15 @@ import com.catascopic.dominion.zone.SingleSelection;
 class BandOfMisfits extends Identity {
 
 	BandOfMisfits() {
-		super(Name.ARTISAN, 5, Type.ACTION);
+		super(Name.BAND_OF_MISFITS, 5, Type.ACTION);
 	}
 
 	@Override
 	public void play(Player player, final Activation activation) {
+		// TODO: can copy any card
 		SingleSelection selected = player.selectOne(
 				player.game().supply(),
-				Filters.ANY,
+				Filters.ACTION,
 				Prompt.get(this));
 		if (!selected.isEmpty()) {
 			player.game().addContinuousEffect(new CopyEffect(player.game(),
@@ -40,29 +41,37 @@ class BandOfMisfits extends Identity {
 		private final Activation activation;
 
 		public CopyEffect(Game game, Identity copy, Activation activation) {
-			super(game);
+			super(1, game);
 			this.copy = copy;
 			this.activation = activation;
 		}
 
 		@Override
 		public void modifyCost(CostValue cost) {
-			cost.set(copy.cost());
+			if (cost.card().equals(activation.card())) {
+				cost.set(copy.cost());
+			}
 		}
 
 		@Override
 		public void modifyTypes(TypesValue types) {
-			types.set(copy.types());
+			if (types.card().equals(activation.card())) {
+				types.set(copy.types());
+			}
 		}
 
 		@Override
 		public void modifyName(NameValue name) {
-			name.set(copy.name());
+			if (name.card().equals(activation.card())) {
+				name.set(copy.name());
+			}
 		}
 
 		@Override
 		public void modifyAbilities(AbilitiesValue abilities) {
-			abilities.set(copy);
+			if (abilities.card().equals(activation.card())) {
+				abilities.set(copy);
+			}
 		}
 
 		@Override
