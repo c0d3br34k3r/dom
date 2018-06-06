@@ -1,7 +1,9 @@
 package com.catascopic.dominion.event;
 
-public class Trigger {
+import com.catascopic.dominion.Source;
 
-	
+public interface Trigger extends Source {
+
+	void resolve();
 	
 }

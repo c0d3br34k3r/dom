@@ -65,6 +65,7 @@ public enum Name {
 	HAREM,
 	NOBLES,
 	
+	TALISMAN,
 	HIGHWAY,
 	BAND_OF_MISFITS,
 	

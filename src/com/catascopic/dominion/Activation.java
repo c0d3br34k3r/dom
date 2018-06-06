@@ -24,12 +24,17 @@ public class Activation implements Source {
 
 	}
 
-	public void playAs(SingleSelection self, Card card) {
+	public void playAs(SingleSelection self, Abilities abilities) {
 		// TODO Auto-generated method stub
 
 	}
 
 	public Card card() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Player player() {
 		// TODO Auto-generated method stub
 		return null;
 	}

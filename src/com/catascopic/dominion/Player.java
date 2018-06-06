@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.catascopic.dominion.event.TrashEvent;
 import com.catascopic.dominion.zone.Deck;
 import com.catascopic.dominion.zone.DiscardPile;
 import com.catascopic.dominion.zone.Selectable;
@@ -154,7 +155,12 @@ public class Player {
 	 * track of; 4. The card isn't already in the trash. */
 	// TODO: Optional<Card>?
 	public boolean trash(Source source, SingleSelection selection) {
-		return game.trash().accept(selection);
+		if (game.trash().accept(selection)) {
+			TrashEvent event = new TrashEvent(this, selection.get());
+			game.handleMoveEvent(event);
+			return true;
+		}
+		return false;
 	}
 
 	public Collection<Card> trash(Source source, Selection selection) {
@@ -205,6 +211,11 @@ public class Player {
 	public boolean gain(Source source, PileName pile) {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public void gain(Source source, Name name) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public boolean gainToDeck(Source source, PileName pile) {

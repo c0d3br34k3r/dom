@@ -4,8 +4,8 @@ public interface ContinuousEffectSource {
 
 	int timestamp();
 
-	void getContinuousEffectsLayer1(ContinuousEffects effects);
+	Layer layer();
 
-	void getContinuousEffectsLayer2(ContinuousEffects effects);
+	void getContinuousEffects(ContinuousEffects effects);
 
 }

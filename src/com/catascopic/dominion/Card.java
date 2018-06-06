@@ -2,6 +2,7 @@ package com.catascopic.dominion;
 
 import java.util.Set;
 
+import com.catascopic.dominion.event.Event;
 import com.catascopic.dominion.modify.AbilitiesValue;
 import com.catascopic.dominion.modify.ContinuousEffectSource;
 import com.catascopic.dominion.modify.ContinuousEffects;
@@ -59,13 +60,12 @@ public class Card implements ContinuousEffectSource {
 	}
 
 	@Override
-	public void getContinuousEffectsLayer1(ContinuousEffects effects) {
-		calculateAbilities().getContinuousEffectsLayer1(effects);
+	public void getContinuousEffects(ContinuousEffects effects) {
+		calculateAbilities().getContinuousEffects(effects);
 	}
 	
-	@Override
-	public void getContinuousEffectsLayer2(ContinuousEffects effects) {
-		calculateAbilities().getContinuousEffectsLayer2(effects);
+	public void handleEvent(Event event) {
+		calculateAbilities().trigger(event);
 	}
 
 	@Override

@@ -8,7 +8,6 @@ public interface ValueVisitor {
 
 	void modifyTypes(TypesValue types);
 
-	// Top layer
 	void modifyAbilities(AbilitiesValue abilities);
 
 }

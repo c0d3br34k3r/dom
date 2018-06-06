@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.catascopic.dominion.event.DelayedTrigger;
+import com.catascopic.dominion.event.TrashEvent;
 import com.catascopic.dominion.modify.ContinuousEffect;
 import com.catascopic.dominion.modify.ContinuousEffectSource;
 import com.catascopic.dominion.modify.ContinuousEffects;
@@ -108,6 +109,17 @@ public class Game {
 
 	void tick() {
 		time++;
+	}
+
+	public void handleMoveEvent(TrashEvent event) {
+		for (Player player : players) {
+			for (Card card : player.inPlay().cards()) {
+				card.handleEvent(event);
+			}
+		}
+
+		tick();
+		event.resolveTriggers();
 	}
 
 }
