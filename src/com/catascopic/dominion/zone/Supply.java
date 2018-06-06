@@ -8,7 +8,7 @@ import java.util.Queue;
 
 import com.catascopic.dominion.Card;
 import com.catascopic.dominion.PileName;
-import com.catascopic.dominion.zone.Selection.Acceptor;
+import com.catascopic.dominion.zone.SingleSelection.SingleAcceptor;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterables;
 
@@ -27,14 +27,13 @@ public class Supply extends Zone implements Selectable {
 	}
 
 	public void accept(SingleSelection selection) {
-		selection.move(new Acceptor() {
+		selection.move(new SingleAcceptor() {
 
-			// TODO different type of acceptor for single selection?
+			// TODO
 			@Override
-			public Locator accept(Collection<Card> removed) {
-				Card card = Iterables.getOnlyElement(removed);
-				Pile pile = contents.get(card.pile());
-				pile.cards.add(card);
+			public Locator accept(Card removed) {
+				Pile pile = contents.get(removed.pile());
+				pile.cards.add(removed);
 				pile.topCount++;
 				return pile.locate();
 			}
@@ -56,19 +55,14 @@ public class Supply extends Zone implements Selectable {
 				: new SingleSelection(pile.locate());
 	}
 
-	@Override
-	Collection<Card> removeAll() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	void dump(Zone zone) {
-		throw new UnsupportedOperationException();
-	}
-
 	@Deprecated
 	@Override
 	public Selection select(Collection<Card> cards) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Selection selectAll() {
 		throw new UnsupportedOperationException();
 	}
 

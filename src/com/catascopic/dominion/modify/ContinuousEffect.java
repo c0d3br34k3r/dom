@@ -1,10 +1,10 @@
 package com.catascopic.dominion.modify;
 
-public interface ContinuousEffect extends Comparable<ContinuousEffect> {
+public interface ContinuousEffect {
 
-	int timestamp();
+	 int timestamp();
 
-	Layer layer();
+	// Layer layer();
 
 	void modify(Value<?> value);
 

@@ -6,33 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.catascopic.dominion.Card;
-import com.catascopic.dominion.Player;
-import com.catascopic.dominion.base.TemporaryZone;
-import com.catascopic.dominion.zone.Selection.Acceptor;
+import com.google.common.base.Predicate;
 
-public class Deck extends Zone {
-
-	private List<Card> contents = new ArrayList<>();
-	private Player player;
-	private int topCount;
-
-	public void moveToTop(Selection selection) {
-		selection.move(new Acceptor() {
-
-			@Override
-			public Locator accept(Collection<Card> removed) {
-				if (contents.addAll(removed)) {
-					topCount++;
-				}
-				return lockTop(removed.size());
-			}
-		});
-	}
-
-	public void shuffle() {
-		Collections.shuffle(contents);
-		topCount++;
-	}
+public class Deck extends OrderedZone {
 
 	public SingleSelection selectTop() {
 		return ensureSize(1) == 1
@@ -41,61 +17,45 @@ public class Deck extends Zone {
 	}
 
 	public Selection selectTop(int amount) {
-		return new Selection(lockTop(ensureSize(amount)));
+		return new Selection(locateTop(ensureSize(amount)));
 	}
 
-	Locator lockTop(final int amount) {
-		final int currentTopCount = topCount;
-		return new Locator() {
-
-			@Override
-			public void remove(Collection<Card> removed) {
-				if (topCount == currentTopCount) {
-					List<Card> cards = contents.subList(
-							contents.size() - amount,
-							contents.size());
-					for (Card card : cards) {
-						card.location().move();
-					}
-					topCount++;
-					removed.addAll(cards);
-					cards.clear();
-				}
-			}
-		};
+	// TODO: visibility
+	public TemporaryZone revealTop(int amount) {
+		return lookAtTop(amount);
 	}
 
-	Locator locateTop() {
-		final int currentTopCount = topCount;
-		return new Locator() {
+	public TemporaryZone lookAtTop(int amount) {
+		List<Card> top = contents.subList(0, ensureSize(amount));
+		TemporaryZone temp = new TemporaryZone(top);
+		top.clear();
+		topCount++;
+		return temp;
+	}
 
-			@Override
-			public void remove(Collection<Card> removed) {
-				if (topCount == currentTopCount) {
-					Card card = contents.remove(contents.size() - 1);
-					card.location().move();
-					topCount++;
-					removed.add(card);
-				}
+	public TemporaryZone revealUntil(Predicate<Card> filter) {
+		return revealUntil(filter, 1);
+	}
+
+	public TemporaryZone revealUntil(Predicate<Card> filter, int amount) {
+		int i;
+		int matches = 0;
+		for (i = 0; ensureSize(i) == i && matches < amount; i++) {
+			if (filter.apply(contents.get(i))) {
+				matches++;
 			}
-		};
+		}
+		return revealTop(i);
 	}
 
 	private int ensureSize(int amount) {
 		if (contents.size() < amount) {
-			dump(player.discardPile());
+			contents.addAll(player.discardPile().recycle());
 		}
-		shuffle();
 		return contents.size();
 	}
 
-	@Override
-	void dump(Zone zone) {
-		contents.addAll(zone.removeAll());
-	}
-
-	@Override
-	Collection<Card> removeAll() {
+	Collection<Card> dump() {
 		if (contents.isEmpty()) {
 			return Collections.emptySet();
 		}
@@ -106,11 +66,6 @@ public class Deck extends Zone {
 		contents.clear();
 		topCount++;
 		return result;
-	}
-
-	public TemporaryZone lookAtTop(int amount) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

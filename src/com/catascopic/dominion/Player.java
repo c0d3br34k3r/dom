@@ -1,15 +1,16 @@
 package com.catascopic.dominion;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
 import com.catascopic.dominion.zone.Deck;
+import com.catascopic.dominion.zone.DiscardPile;
 import com.catascopic.dominion.zone.Selectable;
 import com.catascopic.dominion.zone.Selection;
 import com.catascopic.dominion.zone.SingleSelection;
 import com.catascopic.dominion.zone.TemporaryZone;
 import com.catascopic.dominion.zone.UnorderedZone;
-import com.catascopic.dominion.zone.Zone;
 import com.google.common.base.Predicate;
 
 public class Player {
@@ -22,6 +23,11 @@ public class Player {
 	private int coins;
 	private int buys;
 
+	private Deck deck;
+	private DiscardPile discardPile;
+	private UnorderedZone inPlay;
+	private UnorderedZone hand;
+
 	public Player(Game game) {
 		this.game = game;
 	}
@@ -31,18 +37,19 @@ public class Player {
 	}
 
 	public UnorderedZone hand() {
-		// TODO Auto-generated method stub
-		return null;
+		return hand;
 	}
 
 	public Deck deck() {
-		// TODO Auto-generated method stub
-		return null;
+		return deck;
 	}
 
-	public Zone discardPile() {
-		// TODO Auto-generated method stub
-		return null;
+	public DiscardPile discardPile() {
+		return discardPile;
+	}
+
+	public UnorderedZone inPlay() {
+		return inPlay;
 	}
 
 	// Vanilla bonuses
@@ -136,20 +143,20 @@ public class Player {
 		return false;
 	}
 
-	public void trash(Source source, Selection selection) {
-		// TODO Auto-generated method stub
-	}
-
 	/* Returns true if all conditions are met: 1. A card is selected; 2. The
 	 * trashing isn't replaced by another effect; 3. The card hasn't been lost
 	 * track of; 4. The card isn't already in the trash. */
+	// TODO: Optional<Card>?
 	public boolean trash(Source source, SingleSelection selection) {
-		// TODO Auto-generated method stub
-		return true;
+		return game.trash().accept(selection);
 	}
 
-	public void discard(Source source, Selection selection) {
-		// TODO Auto-generated method stub
+	public Collection<Card> trash(Source source, Selection selection) {
+		return game.trash().accept(selection);
+	}
+
+	public Collection<Card> discard(Source source, Selection selection) {
+		return discardPile.acceptTop(selection);
 	}
 
 	public boolean discard(Source source, SingleSelection selection) {
@@ -208,12 +215,14 @@ public class Player {
 		return null;
 	}
 
-	public void move(Activation activation, SingleSelection selection, TemporaryZone setAside) {
+	public void move(Activation activation, SingleSelection selection,
+			TemporaryZone setAside) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public boolean gainToHand(Activation activation, SingleSelection selectOne) {
+	public boolean gainToHand(Activation activation,
+			SingleSelection selectOne) {
 		// TODO Auto-generated method stub
 		return true;
 	}

@@ -22,7 +22,7 @@ public class AbilitiesValue extends CardValue<Abilities> {
 		visitor.modifyAbilities(this);
 	}
 
-	public void replace(Abilities newAbilities) {
+	public void set(Abilities newAbilities) {
 		abilities = newAbilities;
 	}
 
@@ -43,10 +43,9 @@ public class AbilitiesValue extends CardValue<Abilities> {
 			}
 
 			@Override
-			public void continuousEffect(Context context,
-					ContinuousEffects effects) {
-				abilities.continuousEffect(context, effects);
-				newAbilities.continuousEffect(context, effects);
+			public void modify(Value<?> value) {
+				abilities.modify(value);
+				newAbilities.modify(value);
 			}
 		};
 	}

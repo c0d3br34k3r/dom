@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.catascopic.dominion.Card;
+import com.catascopic.dominion.zone.SingleSelection.SingleAcceptor;
 import com.google.common.collect.Iterables;
 
 public class UnorderedZone extends Zone implements Selectable {
@@ -18,30 +19,8 @@ public class UnorderedZone extends Zone implements Selectable {
 		return Collections.unmodifiableSet(contents);
 	}
 
-	@Override
-	Collection<Card> removeAll() {
-		for (Card card : contents) {
-			card.location().move();
-		}
-		contents.clear();
-		List<Card> result = new ArrayList<>(contents);
-		return result;
-	}
-
-	@Override
-	public void dump(Zone zone) {
-		contents.addAll(zone.removeAll());
-	}
-
-	public void accept(Selection selection) {
-		selection.move(new Selection.Acceptor() {
-
-			@Override
-			public Locator accept(Collection<Card> removed) {
-				contents.addAll(removed);
-				return locate(removed);
-			}
-		});
+	public int size() {
+		return contents.size();
 	}
 
 	@Override
@@ -57,6 +36,28 @@ public class UnorderedZone extends Zone implements Selectable {
 	@Override
 	public Selection selectAll() {
 		return select(cards());
+	}
+
+	public Collection<Card> accept(Selection selection) {
+		return selection.move(new Selection.Acceptor() {
+
+			@Override
+			public Locator accept(Collection<Card> removed) {
+				contents.addAll(removed);
+				return locate(removed);
+			}
+		});
+	}
+
+	public boolean accept(SingleSelection selection) {
+		return !selection.move(new SingleAcceptor() {
+
+			@Override
+			public Locator accept(Card removed) {
+				contents.add(removed);
+				return locate(removed);
+			}
+		}).isEmpty();
 	}
 
 	Locator locate(Collection<Card> cards) {

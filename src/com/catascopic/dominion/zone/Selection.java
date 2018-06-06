@@ -18,27 +18,19 @@ public class Selection {
 		return new SingleSelection(EMPTY_LOCATOR);
 	}
 
-	private Locator locator;
-	private Collection<Card> cards; // = null
+	Locator locator;
 
 	Selection(Locator locator) {
 		this.locator = locator;
 	}
 
-	void move(Acceptor acceptor) {
+	Collection<Card> move(Acceptor acceptor) {
 		List<Card> removed = new ArrayList<>();
 		locator.remove(removed);
 		if (!removed.isEmpty()) {
 			locator = acceptor.accept(removed);
 		}
-		cards = removed;
-	}
-
-	public Collection<Card> cards() {
-		if (cards == null) {
-			throw new IllegalStateException();
-		}
-		return cards;
+		return removed;
 	}
 
 	interface Acceptor {

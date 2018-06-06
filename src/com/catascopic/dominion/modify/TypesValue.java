@@ -9,6 +9,7 @@ import com.catascopic.dominion.Type;
 public class TypesValue extends CardValue<Set<Type>> {
 
 	private Set<Type> types;
+	private Set<Type> add = EnumSet.noneOf(Type.class);
 
 	public TypesValue(Card card, Set<Type> types) {
 		super(card);
@@ -21,15 +22,20 @@ public class TypesValue extends CardValue<Set<Type>> {
 	}
 
 	public void addType(Type type) {
-		types.add(type);
+		add.add(type);
 	}
 
 	public void addTypes(Set<Type> types) {
-		this.types.addAll(types);
+		add.addAll(types);
+	}
+
+	public void set(Set<Type> baseTypes) {
+		types = baseTypes;
 	}
 
 	@Override
 	public Set<Type> get() {
+		types.addAll(add);
 		return types;
 	}
 

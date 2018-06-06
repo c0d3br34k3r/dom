@@ -6,11 +6,12 @@ import java.util.Set;
 import com.catascopic.dominion.event.Context;
 import com.catascopic.dominion.event.Event;
 import com.catascopic.dominion.event.Triggers;
-import com.catascopic.dominion.modify.ContinuousEffects;
+import com.catascopic.dominion.modify.AbstractContinuousEffect;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 
-public abstract class Identity implements Abilities {
+public abstract class Identity extends AbstractContinuousEffect implements
+		Abilities {
 
 	private final Name name;
 	private final int cost;
@@ -54,9 +55,9 @@ public abstract class Identity implements Abilities {
 		// do nothing by default
 	}
 
-	@Override
-	public void continuousEffect(Context context, ContinuousEffects effects) {
-		// do nothing by default
+	public int timestamp() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override

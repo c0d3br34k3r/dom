@@ -5,6 +5,7 @@ import com.catascopic.dominion.Card;
 public class CostValue extends CardValue<Integer> {
 
 	private int cost;
+	private int modifier;
 
 	public CostValue(Card card, int cost) {
 		super(card);
@@ -17,12 +18,16 @@ public class CostValue extends CardValue<Integer> {
 	}
 
 	public void reduce(int amount) {
-		cost = Integer.max(cost - amount, 0);
+		modifier -= amount;
+	}
+
+	public void set(int baseCost) {
+		cost = baseCost;
 	}
 
 	@Override
 	public Integer get() {
-		return cost;
+		return Math.max(cost + modifier, 0);
 	}
 
 }

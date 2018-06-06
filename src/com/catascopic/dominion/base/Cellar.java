@@ -7,7 +7,6 @@ import com.catascopic.dominion.Name;
 import com.catascopic.dominion.Player;
 import com.catascopic.dominion.Prompt;
 import com.catascopic.dominion.Type;
-import com.catascopic.dominion.zone.Selection;
 
 class Cellar extends Identity {
 
@@ -18,12 +17,10 @@ class Cellar extends Identity {
 	@Override
 	public void play(Player player, Activation activation) {
 		player.addAction(activation);
-		Selection selection = player.selectAnyNumber(
+		player.draw(player.discard(activation, player.selectAnyNumber(
 				player.hand(),
 				Filters.ANY,
-				Prompt.get(this));
-		player.discard(activation, selection);
-		player.draw(selection.cards().size(), activation);
+				Prompt.get(this))).size(), activation);
 	}
 
 }

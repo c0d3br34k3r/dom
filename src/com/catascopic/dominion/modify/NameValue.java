@@ -17,7 +17,7 @@ public class NameValue extends CardValue<Name> {
 		visitor.modifyName(this);
 	}
 
-	public void change(Name newName) {
+	public void set(Name newName) {
 		name = newName;
 	}
 
