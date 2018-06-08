@@ -23,7 +23,7 @@ class Highway extends Identity {
 	}
 
 	@Override
-	public void getContinuousEffectsLayer2(ContinuousEffects effects) {
+	public void getContinuousEffects(ContinuousEffects effects) {
 		effects.add(REDUCE_COST);
 	}
 

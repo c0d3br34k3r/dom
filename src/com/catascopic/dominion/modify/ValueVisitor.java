@@ -2,12 +2,14 @@ package com.catascopic.dominion.modify;
 
 public interface ValueVisitor {
 
-	void modifyCost(CostValue cost);
+	void modifyCost(CostValue value);
 
-	void modifyName(NameValue name);
+	void modifyName(NameValue value);
 
-	void modifyTypes(TypesValue types);
+	void modifyTypes(TypesValue value);
+	
+	void modifyAttackablePlayers(AttackablePlayersValue value);
 
-	void modifyAbilities(AbilitiesValue abilities);
+	void modifyAbilities(AbilitiesValue value);
 
 }

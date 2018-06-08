@@ -9,22 +9,27 @@ public abstract class AbstractContinuousEffect
 	}
 
 	@Override
-	public void modifyCost(CostValue cost) {
+	public void modifyCost(CostValue value) {
 		// do nothing by default
 	}
 
 	@Override
-	public void modifyTypes(TypesValue types) {
+	public void modifyTypes(TypesValue value) {
 		// do nothing by default
 	}
 
 	@Override
-	public void modifyName(NameValue name) {
+	public void modifyName(NameValue value) {
 		// do nothing by default
 	}
 
 	@Override
-	public void modifyAbilities(AbilitiesValue abilitiesValue) {
+	public void modifyAbilities(AbilitiesValue value) {
+		// do nothing by default
+	}
+
+	@Override
+	public void modifyAttackablePlayers(AttackablePlayersValue value) {
 		// do nothing by default
 	}
 

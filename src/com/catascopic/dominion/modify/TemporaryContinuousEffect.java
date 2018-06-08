@@ -7,11 +7,9 @@ public abstract class TemporaryContinuousEffect extends AbstractContinuousEffect
 		implements ContinuousEffectSource, AutoRemovable {
 
 	private final int timestamp;
-	private int layer;
 
-	public TemporaryContinuousEffect(int layer, Game game) {
+	public TemporaryContinuousEffect(Game game) {
 		this.timestamp = game.getTime();
-		this.layer = layer;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import com.catascopic.dominion.Player;
 
 public abstract class Event {
 
-	public abstract void handle(EventVisitor visitor);
+	public abstract void handle(EventVisitor visitor, Context context);
 
 	public void resolveTriggers() {
 		// TODO Auto-generated method stub

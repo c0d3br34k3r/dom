@@ -1,14 +1,13 @@
 package com.catascopic.dominion.other;
 
 import com.catascopic.dominion.Activation;
+import com.catascopic.dominion.Card;
 import com.catascopic.dominion.Identity;
 import com.catascopic.dominion.Name;
 import com.catascopic.dominion.Player;
 import com.catascopic.dominion.Type;
-import com.catascopic.dominion.event.Event;
-import com.catascopic.dominion.event.EventVisitor;
+import com.catascopic.dominion.event.Context;
 import com.catascopic.dominion.event.GainEvent;
-import com.catascopic.dominion.event.TrashEvent;
 import com.catascopic.dominion.event.Trigger;
 
 class Talisman extends Identity {
@@ -23,30 +22,35 @@ class Talisman extends Identity {
 	}
 
 	@Override
-	public void trigger(final Activation activation, Event event) {
-		event.handle(new EventVisitor() {
+	public void handleGain(GainEvent event, Context context) {
+		if (context.inPlay()
+				&& event.player() == context.owner()
+				&& event.card().cost() <= 4
+				&& !event.card().types().contains(Type.VICTORY)) {
+			event.addTrigger(new TalismanTrigger(
+					context.owner(), event.card()));
+		}
+	}
 
-			@Override
-			public void handleTrash(TrashEvent event) {
+	private static class TalismanTrigger implements Trigger {
 
-			}
+		private final Player player;
+		private final Card card;
 
-			@Override
-			public void handleGain(final GainEvent event) {
-				if (event.player() == activation.player()
-						&& event.card().cost() <= 4
-						&& !event.card().types().contains(Type.VICTORY)) {
-					event.addTrigger(new Trigger() {
+		TalismanTrigger(Player player, Card card) {
+			this.player = player;
+			this.card = card;
+		}
 
-						@Override
-						public void resolve() {
-							activation.player().gain(this, event.card().name());							
-						}
-					});
-				}
-			}
-		});
+		@Override
+		public void resolve() {
+			player.gain(this, card.name());
+		}
 
+		@Override
+		public String toString() {
+			return player + " gains a copy of " + card;
+		}
 	}
 
 }

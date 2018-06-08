@@ -39,4 +39,9 @@ public class Activation implements Source {
 		return null;
 	}
 
+	public boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -10,8 +10,8 @@ public class TrashEvent extends MoveEvent {
 	}
 
 	@Override
-	public void handle(EventVisitor visitor) {
-		visitor.handleTrash(this);
+	public void handle(EventVisitor visitor, Context context) {
+		visitor.handleTrash(this, context);
 	}
 
 }
