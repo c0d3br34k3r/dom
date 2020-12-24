@@ -16,8 +16,13 @@ public class TemporaryZone extends UnorderedZone implements AutoCloseable {
 	public void close() {
 		if (!contents.isEmpty()) {
 			throw new IllegalStateException(
-					this + " contains " + contents.toString());
+					this + " contains " + contents);
 		}
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		close();
 	}
 
 }
